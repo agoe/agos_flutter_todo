@@ -3,9 +3,21 @@ import 'package:agos_todo_app/widgets/task_list_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+import 'models/task.dart';
+
+class HomeScreen extends StatefulWidget {
 
   //Widget buildBottomSheet(BuildContext context) =>Container();
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<Task> tasks = [
+    Task(name: 'Einkaufen'),
+    Task(name: 'Autowaschen'),
+    Task(name: 'Putzen')
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +26,16 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.lightBlueAccent,
         onPressed: (){
-          showModalBottomSheet(context: context, builder: (context) => AddTaskScreen());
+          showModalBottomSheet(
+              context: context,
+              builder: (context) =>
+                  AddTaskScreen((newTaskTitle){
+                    setState(() {
+                      tasks.add(Task(name: newTaskTitle));
+                    });
+                    Navigator.pop(context);
+                  })
+          );
         },
         child: Icon(Icons.add),
       ),
@@ -45,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '12 Tasks',
+                  '${tasks.length} Tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -63,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                       topRight:Radius.circular(20) )
 
               ),
-              child: TaskListView(),
+              child: TaskListView(tasks),
             ),
           )
         ],

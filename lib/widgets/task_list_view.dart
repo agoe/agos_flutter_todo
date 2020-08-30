@@ -4,33 +4,34 @@ import 'package:flutter/material.dart';
 import 'task_list_tile.dart';
 
 class TaskListView extends StatefulWidget {
+
+  final List<Task> tasks;
+
+  TaskListView(@required this.tasks);
+
   @override
   _TaskListViewState createState() => _TaskListViewState();
 }
 
 class _TaskListViewState extends State<TaskListView> {
-  List<Task> tasks = [
-    Task(name: 'Einkaufen'),
-    Task(name: 'Autowaschen'),
-    Task(name: 'Putzen')
-  ];
+
 
   @override
   Widget build(BuildContext context) {
-    print("num tasks" + tasks.length.toString());
+    print("num tasks" + widget.tasks.length.toString());
     return ListView.builder(
-        itemCount: tasks.length,
+        itemCount: widget.tasks.length,
         itemBuilder: (context, index) {
 
           Function onPressedCallBack = (bool newValue) {
             setState(() {
-              tasks[index].isDone = !tasks[index].isDone;
+              widget.tasks[index].isDone = !widget.tasks[index].isDone;
             });
           };
 
           return TaskListTile(
-            taskTitle: tasks[index].name,
-            taskSelected: tasks[index].isDone,
+            taskTitle: widget.tasks[index].name,
+            taskSelected: widget.tasks[index].isDone,
             onPressedCallBack: onPressedCallBack,
           );
         });

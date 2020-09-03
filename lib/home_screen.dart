@@ -1,9 +1,9 @@
+import 'package:agos_todo_app/models/task_data.dart';
 import 'package:agos_todo_app/screens/add_task_screen.dart';
 import 'package:agos_todo_app/widgets/task_list_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'models/task.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -13,11 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Task> tasks = [
-    Task(name: 'Einkaufen'),
-    Task(name: 'Autowaschen'),
-    Task(name: 'Putzen')
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: (){
           showModalBottomSheet(
               context: context,
-              builder: (context) =>
-                  AddTaskScreen((newTaskTitle){
-                    setState(() {
-                      tasks.add(Task(name: newTaskTitle));
-                    });
-                    Navigator.pop(context);
-                  })
+              builder: (context) => AddTaskScreen(),
           );
         },
         child: Icon(Icons.add),
@@ -66,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Text(
-                  '${tasks.length} Tasks',
+                  '${TaskData.getTasks(context).length} Tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -84,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       topRight:Radius.circular(20) )
 
               ),
-              child: TaskListView(tasks),
+              child: TaskListView(),
             ),
           )
         ],

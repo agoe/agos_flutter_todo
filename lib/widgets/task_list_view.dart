@@ -1,39 +1,31 @@
 import 'package:agos_todo_app/models/task.dart';
+import 'package:agos_todo_app/models/task_data.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'task_list_tile.dart';
 
-class TaskListView extends StatefulWidget {
-
-  final List<Task> tasks;
-
-  TaskListView(@required this.tasks);
-
-  @override
-  _TaskListViewState createState() => _TaskListViewState();
-}
-
-class _TaskListViewState extends State<TaskListView> {
-
-
+class TaskListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print("num tasks" + widget.tasks.length.toString());
-    return ListView.builder(
-        itemCount: widget.tasks.length,
-        itemBuilder: (context, index) {
-
-          Function onPressedCallBack = (bool newValue) {
-            setState(() {
-              widget.tasks[index].isDone = !widget.tasks[index].isDone;
+    return Consumer<TaskData>(
+      builder: (context, taskData, child) {
+        return ListView.builder(
+            itemCount: taskData.taskCount,
+            itemBuilder: (context, index) {
+              Task task = taskData.tasks[index];
+              return TaskListTile(
+                taskTitle: task.name,
+                taskSelected: task.isDone,
+                onPressedCallBack: (isDone){
+                  taskData.updateTask(task);
+                },
+                onLongPressedCallBack: (){
+                  taskData.deleteTask(task);
+                },
+              );
             });
-          };
-
-          return TaskListTile(
-            taskTitle: widget.tasks[index].name,
-            taskSelected: widget.tasks[index].isDone,
-            onPressedCallBack: onPressedCallBack,
-          );
-        });
+      },
+    );
   }
 }

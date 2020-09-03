@@ -4,13 +4,15 @@ class TaskListTile extends StatelessWidget {
   final String taskTitle;
   final bool taskSelected;
   final Function(bool) onPressedCallBack;
+  final Function onLongPressedCallBack;
 
   const TaskListTile(
-      {this.taskTitle, this.taskSelected, this.onPressedCallBack});
+      {this.taskTitle, this.taskSelected, this.onPressedCallBack, this.onLongPressedCallBack});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onLongPress: onLongPressedCallBack,
       title: Text(taskTitle,
           style: TextStyle(
             decoration:

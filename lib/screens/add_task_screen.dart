@@ -1,12 +1,11 @@
+import 'package:agos_todo_app/models/task_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddTaskScreen extends StatelessWidget {
 
-  final Function  addTaskCallback;
   static String newTaskTitle ="";
-
-  AddTaskScreen(this.addTaskCallback) ;
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +42,8 @@ class AddTaskScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.white),),
                 color: Colors.lightBlueAccent,
                 onPressed: (){
-                  print(newTaskTitle);
-                  addTaskCallback(newTaskTitle);
+                  Provider.of<TaskData>(context).addTask(newTaskTitle);
+                  Navigator.pop(context);
                 },
             )
           ],
